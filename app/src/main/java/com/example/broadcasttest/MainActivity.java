@@ -33,7 +33,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent("com.example.broadcasttest.MY_BROADCAST");
-                intent.setComponent(new ComponentName("com.example.broadcasttest","com.example.broadcasttest.MyBroadcastReceiver"));
+                //发送广播到本项目的广播接收器
+                intent.setPackage("com.example.broadcasttest");
+                sendBroadcast(intent);
+                //发送广播到第二个项目的广播接收器
+                intent.setPackage("com.example.broadcasttest2");
                 sendBroadcast(intent);
                 Log.d(TAG, "onClick: Send the Broadcast for MyBroadcastReceiver");
             }

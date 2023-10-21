@@ -3,6 +3,7 @@ package com.example.broadcasttest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 public class MyBroadcastReceiver extends BroadcastReceiver {
@@ -10,7 +11,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         if(action.equals("com.example.broadcasttest.MY_BROADCAST")){
-            Toast.makeText(context, "received in MyBroadcastReceiver", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "MyBroadcastReceiver：" + context.toString(), Toast.LENGTH_SHORT).show();
         }
 
     }

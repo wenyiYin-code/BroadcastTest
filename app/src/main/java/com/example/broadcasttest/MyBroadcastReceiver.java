@@ -9,10 +9,8 @@ import android.widget.Toast;
 public class MyBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        String action = intent.getAction();
-        if(action.equals("com.example.broadcasttest.MY_BROADCAST")){
-            Toast.makeText(context, "MyBroadcastReceiver：" + context.toString(), Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(context, "MyBroadcastReceiver：" + context.toString(), Toast.LENGTH_SHORT).show();
+        abortBroadcast();
 
     }
 }

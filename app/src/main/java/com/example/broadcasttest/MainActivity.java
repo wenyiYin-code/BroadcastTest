@@ -20,6 +20,9 @@ public class MainActivity extends AppCompatActivity {
     private IntentFilter intentFilter;
     private NetworkChangeReceiver networkChangeReceiver;
 
+    private IntentFilter intentFilterTest1;
+    private Receiver receiverTest1;
+
     final private String TAG = "MainActivity";
 
 
@@ -32,14 +35,21 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent("com.example.broadcasttest.MY_BROADCAST");
-                //发送广播到本项目的广播接收器
-                intent.setPackage("com.example.broadcasttest");
-                sendBroadcast(intent);
-                //发送广播到第二个项目的广播接收器
-                intent.setPackage("com.example.broadcasttest2");
-                sendBroadcast(intent);
-                Log.d(TAG, "onClick: Send the Broadcast for MyBroadcastReceiver");
+//                Intent intent = new Intent("com.example.broadcasttest.MY_BROADCAST");
+//                //发送广播到本项目的广播接收器
+//                intent.setPackage("com.example.broadcasttest");
+//                sendOrderedBroadcast(intent, null);
+//                //发送广播到第二个项目的广播接收器
+//                intent.setPackage("com.example.broadcasttest2");
+//                sendOrderedBroadcast(intent, null);
+//                Log.d(TAG, "onClick: Send the Broadcast for MyBroadcastReceiver");
+                Intent intent = new Intent("com.example.MyBroadcast");
+                //发送广播到本项目的动态广播接收器
+                //intent.setPackage("com.example.broadcasttest");
+                //sendOrderedBroadcast(intent, null);
+                //intent.setPackage("com.example.broadcasttest2");
+                sendOrderedBroadcast(intent, null);
+
             }
         });
 
@@ -47,6 +57,15 @@ public class MainActivity extends AppCompatActivity {
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         networkChangeReceiver = new NetworkChangeReceiver();
         registerReceiver(networkChangeReceiver, intentFilter);
+
+        intentFilterTest1 = new IntentFilter();
+        intentFilterTest1.addAction("com.example.MyBroadcast");
+        intentFilterTest1.setPriority(10);
+        receiverTest1 = new Receiver();
+        registerReceiver(receiverTest1, intentFilterTest1);
+
+
+
     }
     class NetworkChangeReceiver extends BroadcastReceiver {
         @Override
@@ -64,9 +83,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    class Receiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(context, "receiverTest1：" + context.toString(), Toast.LENGTH_SHORT).show();
+            //abortBroadcast();
+        }
+    }
+
     @Override
     public void onDestroy(){
         super.onDestroy();
         unregisterReceiver(networkChangeReceiver);
+        unregisterReceiver(receiverTest1);
     }
 }
